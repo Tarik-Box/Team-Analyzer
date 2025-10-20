@@ -13,6 +13,14 @@ colorama.init(autoreset=True) # initialize colorama
 import banners as bnr # custom module for displaying banners
 
 
+'''
+
+This is the main execution file for BallAlysis - Simple Football Data Analyzer.
+It imports necessary libraries and displays a welcome message using the custom banners module.
+This script fetches and analyzes football data and players stats from StatsBomb Open Data API.
+Github Repo :  https://github.com/statsbomb/open-data/tree/master
+
+'''
 
 
 
@@ -21,7 +29,14 @@ import banners as bnr # custom module for displaying banners
 
 # function to display welcome message
 def welcome_message():
-    print(bnr.banners())    
+    print(bnr.banners())
+    print(Fore.CYAN + "\n\t\t[*] Welcome to BallAlysis - The Ultimate Football Data Analyzer!" + Style.RESET_ALL)
+    print(Fore.GREEN + "\n\t\t[*] Developed by Tarik Ataia" + Style.RESET_ALL)
+    print(Fore.YELLOW + "\n\t\t[*] Let's kick off your football data analysis journey!" + Style.RESET_ALL)
+    print("\n") # add a newline for better readability  
+    print(Fore.CYAN + "----------------------------------------" + Style.RESET_ALL)
+    print("\n") # add a newline for better readability
+    return
     
     
     
