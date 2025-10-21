@@ -34,6 +34,7 @@ class StatsAnalyzer:
         except requests.exceptions.RequestException as e:
             print(f"[-] Error fetching data from {url}: {e}")
             return None
+        
     
     
     def get_competition_infos(self):
@@ -51,6 +52,22 @@ class StatsAnalyzer:
                 print(f"[+] Fetched competition info for La Liga {self.season}.")
                 return self.competition_id, self.season_id
         return "[-] Competition info not found."
+    
+    def team_select(self, teams):
+        '''
+        This method prompts user to select a team from the fetched teams list.
+        '''
+        try:
+            while True:
+                team_choice = input(Fore.GREEN + "    Your choice: " + Style.RESET_ALL).strip()
+                if team_choice in teams:
+                    
+                    return team_choice
+                else:
+                    print(Fore.RED + "[-] Invalid team selection. Please choose a valid team from the list." + Style.RESET_ALL)
+        except ValueError as e:
+            print(Fore.RED + f"[-] An error occurred during team selection: {e}" + Style.RESET_ALL)
+            return None
     
     def fetch_teams(self):
         '''
@@ -72,10 +89,32 @@ class StatsAnalyzer:
                 teams.add(match['away_team']['away_team_name'])
             for team in sorted(teams):
                 print(Fore.GREEN + Style.BRIGHT + f"    - {team}" + Style.RESET_ALL)
+            print(Fore.CYAN + "\n[+] Home Team Name: " + Style.RESET_ALL)
+            # this will call team_select method to prompt user for team selection
+            team_choice1 = self.team_select(teams)
+            print(Fore.CYAN + "\n[+] Away Team Name: " + Style.RESET_ALL)
+            team_choice2 = self.team_select(teams)
+            if team_choice1 == team_choice2: # home and away teams cannot be the same
+                print(Fore.RED + "[-] Home and Away teams cannot be the same. Exiting ..." + Style.RESET_ALL)
+                return None
+            print(f"\n[+] You have selected {Fore.CYAN}{team_choice1}{Style.RESET_ALL} VS{Fore.CYAN} {team_choice2 }{Style.RESET_ALL} match for analysis.")
+            # function will return a set of teams to use where needed
             return teams
         else:
             print("[-] Failed to fetch teams data.")
             return None
         
+        
+    
+        
+        
+        
+        
+        
+        
+        
+        
+        
 teset_analyzer = StatsAnalyzer(base_url="https://raw.githubusercontent.com/statsbomb/open-data/refs/heads/master/data/", season="2019/2020")
-print(teset_analyzer.fetch_teams())
+
+teset_analyzer.fetch_teams()
