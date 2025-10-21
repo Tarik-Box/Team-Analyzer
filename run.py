@@ -6,15 +6,16 @@
 
 # import necessary libraries
 
+from analyzer import StatsAnalyzer 
+# Write analyzer module to make the code modular and organized and readable
+# import StatsAnalyzer class from custom analyzer module .
+# StatsAnalyzer class handles fetching and analyzing football data from StatsBomb Open Data API.
+# As the code will grow, we will add more functionalities to this class.
+
 import colorama # for colored terminal text
 from colorama import Fore, Style
 colorama.init(autoreset=True) # initialize colorama
 import banners as bnr # custom module for displaying banners
-
-# Write analyzer module to make the code modular and organized and readable
-from analyzer import StatsAnalyzer # import StatsAnalyzer class from custom analyzer module .
-# StatsAnalyzer class handles fetching and analyzing football data from StatsBomb Open Data API.
-# As the code will grow, we will add more functionalities to this class.
 
 
 '''
@@ -26,7 +27,7 @@ Github Repo :  https://github.com/statsbomb/open-data/tree/master
 
 '''
 
-BASE_URL = "https://github.com/statsbomb/open-data/tree/master/data"
+BASE_URL = "https://raw.githubusercontent.com/statsbomb/open-data/refs/heads/master/data/"
 
 
 # function to display welcome message
@@ -90,8 +91,15 @@ if __name__ == "__main__":
         # it made simple for project submission purposes.
         season = get_season()  # call the function to get selected season by user
         if season:
-            analyzer = StatsAnalyzer(season=season, league="la_liga", team='Barcelona')
+            analyzer = StatsAnalyzer(base_url=BASE_URL ,season=season)
             
+            
+        else:
+            print(Fore.RED + "[!] Season selection failed. Exiting ..." + Style.RESET_ALL)
+            exit(1)
+    except Exception as e:
+        print(Fore.RED + f"\n[!] An unexpected error occurred: {e}" + Style.RESET_ALL)
+        exit(1)
         
         
         
