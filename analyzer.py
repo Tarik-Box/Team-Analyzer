@@ -27,6 +27,9 @@ class StatsAnalyzer:
     # method to fetch JSON data from a given URL
     # this method writen to not repeat the same code everytime we need to fetch JSON data from a URL  
     def get_json(self,url):
+        '''
+        This method fetches JSON data from the provided URL.
+        '''
         try:
             req = requests.get(url)
             req.raise_for_status()
