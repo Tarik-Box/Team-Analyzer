@@ -5,12 +5,16 @@
 # Date: 19.10.2025
 
 # import necessary libraries
-import pandas as pd # for data manipulation
-import requests # for making HTTP requests
+
 import colorama # for colored terminal text
 from colorama import Fore, Style
 colorama.init(autoreset=True) # initialize colorama
 import banners as bnr # custom module for displaying banners
+
+# Write analyzer module to make the code modular and organized and readable
+from analyzer import StatsAnalyzer # import StatsAnalyzer class from custom analyzer module .
+# StatsAnalyzer class handles fetching and analyzing football data from StatsBomb Open Data API.
+# As the code will grow, we will add more functionalities to this class.
 
 
 '''
@@ -22,7 +26,7 @@ Github Repo :  https://github.com/statsbomb/open-data/tree/master
 
 '''
 
-
+BASE_URL = "https://github.com/statsbomb/open-data/tree/master/data"
 
 
 # function to display welcome message
@@ -81,7 +85,13 @@ def get_season():
 if __name__ == "__main__":
     try:
         welcome_message()
+        # this script currently focuses on La Liga only on two seasons: 2018/2019 and 2019/2020
+        # it can be extended to include more leagues and seasons ... etc in the future.
+        # it made simple for project submission purposes.
         season = get_season()  # call the function to get selected season by user
+        if season:
+            analyzer = StatsAnalyzer(season=season, league="la_liga", team='Barcelona')
+            
         
         
         
