@@ -7,7 +7,9 @@
 # import necessary libraries
 import pandas as pd # for data manipulation
 import requests # for making HTTP requests
-
+import colorama # for colored terminal text
+from colorama import Fore, Style
+colorama.init(autoreset=True) # initialize colorama
 
 class StatsAnalyzer:
     '''
@@ -47,5 +49,33 @@ class StatsAnalyzer:
                 self.competition_id = competition['competition_id']
                 self.season_id = competition['season_id']
                 print(f"[+] Fetched competition info for La Liga {self.season}.")
-                return
+                return self.competition_id, self.season_id
         return "[-] Competition info not found."
+    
+    def fetch_teams(self):
+        '''
+        This method fetches and display teams for the selected season.
+        '''
+        # first ensure competition_id and season_id are set
+        self.get_competition_infos()
+        if not self.competition_id or not self.season_id:
+            print("[-] Competition ID or Season ID not set. Please fetch competition infos first.")
+            return None
+        
+        teams_url = f"{self.base_url}/matches/{self.competition_id}/{self.season_id}.json"
+        teams_data = self.get_json(teams_url)
+        if teams_data:
+            print(f"[+] Fetched teams data for La Liga {self.season}.\n")
+            teams = set()
+            for match in teams_data:
+                teams.add(match['home_team']['home_team_name'])
+                teams.add(match['away_team']['away_team_name'])
+            for team in sorted(teams):
+                print(Fore.GREEN + Style.BRIGHT + f"    - {team}" + Style.RESET_ALL)
+            return teams
+        else:
+            print("[-] Failed to fetch teams data.")
+            return None
+        
+teset_analyzer = StatsAnalyzer(base_url="https://raw.githubusercontent.com/statsbomb/open-data/refs/heads/master/data/", season="2019/2020")
+print(teset_analyzer.fetch_teams())
