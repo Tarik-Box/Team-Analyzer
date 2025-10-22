@@ -137,7 +137,9 @@ class StatsAnalyzer:
                     events_url = f"{self.base_url}events/{match_id}.json"
                     events_data = self.get_json(events_url)
                     # if events data is found, return it
+                    self.analyze_shots(events_data)
                     return events_data
+                
             # if no match is found, inform the user with available teams and matches
             print(f"\n[-] {Style.BRIGHT}Match not found on statsbomb database.{Style.RESET_ALL} ")
             print('see available teams and matches above')
@@ -149,7 +151,13 @@ class StatsAnalyzer:
             return None
         
         
-        
+    def analyze_shots(self, events):
+        for t in events:
+            print(t["type"]["name"])
+        shots = [e for e in events if e["type"]["name"] == "Shot"]
+        df = pd.DataFrame(shots)
+        print(f"[+] Total shots: {len(df)}")
+
         
         
         
