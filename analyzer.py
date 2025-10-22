@@ -73,8 +73,7 @@ class StatsAnalyzer:
                 print(Fore.RED + f"[-] An error occurred during team selection: {e}" + Style.RESET_ALL)
                 return None
         except KeyboardInterrupt:
-            print(Fore.RED + "\n[-] Team selection interrupted by user. Exiting ..." + Style.RESET_ALL)
-            return None
+            exit(Fore.RED + "\n[-] User interrupted the team selection. Exiting ..." + Style.RESET_ALL)
     
     def fetch_teams(self):
         '''
