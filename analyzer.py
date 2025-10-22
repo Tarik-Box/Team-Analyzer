@@ -61,15 +61,19 @@ class StatsAnalyzer:
         This method prompts user to select a team from the fetched teams list.
         '''
         try:
-            while True:
-                team_choice = input(Fore.GREEN + "    Your choice: " + Style.RESET_ALL).strip()
-                if team_choice in teams:
-                    
-                    return team_choice
-                else:
-                    print(Fore.RED + "[-] Invalid team selection. Please choose a valid team from the list." + Style.RESET_ALL)
-        except ValueError as e:
-            print(Fore.RED + f"[-] An error occurred during team selection: {e}" + Style.RESET_ALL)
+            try:
+                while True:
+                    team_choice = input(Fore.GREEN + "    Your choice: " + Style.RESET_ALL).strip()
+                    if team_choice in teams:
+                        
+                        return team_choice
+                    else:
+                        print(Fore.RED + "[-] Invalid team selection. Please choose a valid team from the list." + Style.RESET_ALL)
+            except ValueError as e:
+                print(Fore.RED + f"[-] An error occurred during team selection: {e}" + Style.RESET_ALL)
+                return None
+        except KeyboardInterrupt:
+            print(Fore.RED + "\n[-] Team selection interrupted by user. Exiting ..." + Style.RESET_ALL)
             return None
     
     def fetch_teams(self):
