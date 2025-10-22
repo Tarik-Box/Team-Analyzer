@@ -113,10 +113,40 @@ class StatsAnalyzer:
             return None
 
         print(f"\n[+] Selected match: {Fore.CYAN}{team_choice1}{Style.RESET_ALL} VS {Fore.CYAN}{team_choice2}{Style.RESET_ALL}")
+        self.fetch_match_data(team_choice1, team_choice2)
         return all_teams.tolist()
         
         
-    
+    def fetch_match_data(self, home_team, away_team):
+        """
+        Fetch events data for a specific match between home_team and away_team if found.
+        """
+        # Get match ID first
+        try:
+            matches_url = f"{self.base_url}matches/{self.competition_id}/{self.season_id}.json"
+            data = self.get_json(matches_url)
+            for match in data:
+                print("[+] Searching for the match...")
+                print(f"********************************************")
+                print(f"[+] {Fore.GREEN}Found match{Style.RESET_ALL}: {match['home_team']['home_team_name']} VS {match['away_team']['away_team_name']}")
+                # check if this is the match we are looking for and get its match id
+                if (match["home_team"]["home_team_name"] == home_team and 
+                    match["away_team"]["away_team_name"] == away_team):
+                    match_id = match["match_id"]
+                    print(f"\n {Fore.YELLOW}[+] Found match ID:{Style.RESET_ALL} {match_id}")
+                    events_url = f"{self.base_url}events/{match_id}.json"
+                    events_data = self.get_json(events_url)
+                    # if events data is found, return it
+                    return events_data
+            # if no match is found, inform the user with available teams and matches
+            print(f"\n[-] {Style.BRIGHT}Match not found on statsbomb database.{Style.RESET_ALL} ")
+            print('see available teams and matches above')
+            return None
+        except KeyboardInterrupt:
+            exit(Fore.RED + "\n[-] User interrupted the match data fetching. Exiting ..." + Style.RESET_ALL)
+        except Exception as e:
+            print(Fore.RED + f"[-] An error occurred while fetching match data: {e}" + Style.RESET_ALL)
+            return None
         
         
         
@@ -126,6 +156,7 @@ class StatsAnalyzer:
         
         
         
-teset_analyzer = StatsAnalyzer(base_url="https://raw.githubusercontent.com/statsbomb/open-data/refs/heads/master/data/", season="2019/2020")
+        
+teset_analyzer = StatsAnalyzer(base_url="https://raw.githubusercontent.com/statsbomb/open-data/refs/heads/master/data/", season="2018/2019")
 
 teset_analyzer.fetch_teams()
