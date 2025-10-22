@@ -40,7 +40,7 @@ class StatsAnalyzer:
         
     
     
-    def get_competition_infos(self):
+    def fetch_competition_ids(self):
         
         '''
         this method will fetch competition infos such as competition id and season id
@@ -77,38 +77,43 @@ class StatsAnalyzer:
     
     def fetch_teams(self):
         '''
-        This method fetches and display teams for the selected season.
+        Fetch and display teams participating in the selected competition.
         '''
-        # first ensure competition_id and season_id are set
-        self.get_competition_infos()
-        if not self.competition_id or not self.season_id:
-            print("[-] Competition ID or Season ID not set. Please fetch competition infos first.")
+        if not (self.competition_id and self.season_id):
+            self.fetch_competition_ids()
+
+        matches_url = f"{self.base_url}matches/{self.competition_id}/{self.season_id}.json"
+        data = self.get_json(matches_url)
+        if not data:
+            print("[-] Failed to fetch matches data.")
             return None
-        
-        teams_url = f"{self.base_url}/matches/{self.competition_id}/{self.season_id}.json"
-        teams_data = self.get_json(teams_url)
-        if teams_data:
-            print(f"[+] Fetched teams data for La Liga {self.season}.\n")
-            teams = set()
-            for match in teams_data:
-                teams.add(match['home_team']['home_team_name'])
-                teams.add(match['away_team']['away_team_name'])
-            for team in sorted(teams):
-                print(Fore.GREEN + Style.BRIGHT + f"    - {team}" + Style.RESET_ALL)
-            print(Fore.CYAN + "\n[+] Home Team Name: " + Style.RESET_ALL)
-            # this will call team_select method to prompt user for team selection
-            team_choice1 = self.team_select(teams)
-            print(Fore.CYAN + "\n[+] Away Team Name: " + Style.RESET_ALL)
-            team_choice2 = self.team_select(teams)
-            if team_choice1 == team_choice2: # home and away teams cannot be the same
-                print(Fore.RED + "[-] Home and Away teams cannot be the same. Exiting ..." + Style.RESET_ALL)
-                return None
-            print(f"\n[+] You have selected {Fore.CYAN}{team_choice1}{Style.RESET_ALL} VS{Fore.CYAN} {team_choice2 }{Style.RESET_ALL} match for analysis.")
-            # function will return a set of teams to use where needed
-            return teams
-        else:
-            print("[-] Failed to fetch teams data.")
+
+        # --- Using pandas to extract teams efficiently ---
+        df = pd.DataFrame(data)
+
+        # Extract team names from nested dicts using .apply()
+        home_teams = df["home_team"].apply(lambda x: x["home_team_name"])
+        away_teams = df["away_team"].apply(lambda x: x["away_team_name"])
+
+        # Combine and sort
+        all_teams = pd.concat([home_teams, away_teams]).drop_duplicates().sort_values().reset_index(drop=True)
+
+        print(Fore.GREEN + f"[+] Teams found in La Liga {self.season}:" + Style.RESET_ALL)
+        for team in all_teams:
+            print(f"    - {team}")
+
+        print(Fore.CYAN + "\n[+] Home Team Name: " + Style.RESET_ALL)
+        team_choice1 = self.team_select(all_teams.tolist())
+
+        print(Fore.CYAN + "\n[+] Away Team Name: " + Style.RESET_ALL)
+        team_choice2 = self.team_select(all_teams.tolist())
+
+        if team_choice1 == team_choice2:
+            print(Fore.RED + "[-] Home and Away teams cannot be the same." + Style.RESET_ALL)
             return None
+
+        print(f"\n[+] Selected match: {Fore.CYAN}{team_choice1}{Style.RESET_ALL} VS {Fore.CYAN}{team_choice2}{Style.RESET_ALL}")
+        return all_teams.tolist()
         
         
     
