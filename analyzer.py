@@ -284,8 +284,6 @@ class StatsAnalyzer:
             shots = len(player_df[player_df["event"] == "Shot"])
             goals = len(player_df[(player_df["event"] == "Shot") & (player_df["outcome"] == "Goal")])
             passes = len(player_df[player_df["event"] == "Pass"])
-            yellow_cards = len(player_df[player_df["card_type"] == "Yellow Card"])
-            red_cards = len(player_df[player_df["card_type"] == "Red Card"])
             
             short_name = " ".join(player.split()[:3])
             stats.append({
@@ -293,9 +291,7 @@ class StatsAnalyzer:
                 "team": team_name,
                 "Shots": shots,
                 "Goals": goals,
-                "Passes": passes,
-                "Yellow Cards": yellow_cards,
-                "Red Cards": red_cards
+                "Passes": passes
             })
         stats_df = pd.DataFrame(stats)
         stats_df = stats_df.sort_values(["team", "Goals", "Shots"], ascending=[True, False, False])
@@ -304,7 +300,8 @@ class StatsAnalyzer:
             sys.stdout.write(f"{Fore.CYAN}{st}{Style.RESET_ALL}")
             sys.stdout.flush()
             time.sleep(0.08)
-        print(stats_df)
+        
+        print(stats_df.to_string(index=False))
         print(Fore.GREEN + "\n[!] Individual player stats analysis completed successfully!" + Style.RESET_ALL)
         self.thank_you_message()
         return stats_df
