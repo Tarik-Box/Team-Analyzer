@@ -96,10 +96,12 @@ class StatsAnalyzer:
         # Combine and sort
         all_teams = pd.concat([home_teams, away_teams]).drop_duplicates().sort_values().reset_index(drop=True)
 
-        print(Fore.GREEN + f"[+] Teams found in La Liga {self.season}:" + Style.RESET_ALL)
+        print(Fore.GREEN + f"\n[+] Teams found in La Liga:\n" + Style.RESET_ALL)
         for team in all_teams:
-            print(f"    - {team}")
-        print(f"{Fore.RED}!--> Note: If the selected match is not found!\n!--> Try to pick *Barcelona* as they have the most matches on the StatsBomb API\n")
+            sys.stdout.write(f"\n\t{Fore.CYAN}{team}{Style.RESET_ALL}")
+            sys.stdout.flush()
+            time.sleep(0.02)
+        print(f"{Fore.RED}\n\n!--> Note: If the selected match is not found!\n!--> Try to pick *Barcelona* as they have the most matches on the StatsBomb API\n")
         
 
         print(Fore.CYAN + "\n[+] Home Team Name: " + Style.RESET_ALL)
@@ -203,7 +205,11 @@ class StatsAnalyzer:
             score = f"{teams[0]} {stats_df.loc[teams[0], 'Goals']} - {stats_df.loc[teams[1], 'Goals']} {teams[1]}"
             print(Fore.CYAN + "\n[+] Final Score:" + Style.RESET_ALL, Fore.YELLOW + score + Style.RESET_ALL + "\n")
         print("*" * 60)
-        print(Fore.CYAN + "\n[+] Match Summary Table:\n" + Style.RESET_ALL)
+        summary = "\n[+] Match Summary Table:\n"
+        for s in summary:
+            sys.stdout.write(f"{Fore.CYAN}{s}{Style.RESET_ALL}")
+            sys.stdout.flush()
+            time.sleep(0.05)
         # print the stats dataframe
         print(stats_df)
 
@@ -293,7 +299,11 @@ class StatsAnalyzer:
             })
         stats_df = pd.DataFrame(stats)
         stats_df = stats_df.sort_values(["team", "Goals", "Shots"], ascending=[True, False, False])
-        print(Fore.CYAN + "\n[+] Player Statistics:\n" + Style.RESET_ALL)
+        statistics = "\n[+] Player Statistics:\n"
+        for st in statistics:
+            sys.stdout.write(f"{Fore.CYAN}{st}{Style.RESET_ALL}")
+            sys.stdout.flush()
+            time.sleep(0.08)
         print(stats_df)
         print(Fore.GREEN + "\n[!] Individual player stats analysis completed successfully!" + Style.RESET_ALL)
         self.thank_you_message()
@@ -308,11 +318,12 @@ class StatsAnalyzer:
             "\n[+] Developed by Tarik Ataia.",
             "\n[+] Goodbye!"
         ]
+        time.sleep(3.0)
         for msg in messages:
             for char in msg + "\n":
                 sys.stdout.write(char)
                 sys.stdout.flush()
-                time.sleep(0.02)
+                time.sleep(0.2)
                 
     def main(self):
         self.fetch_teams()
