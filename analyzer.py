@@ -5,6 +5,8 @@
 # Date: 19.10.2025
 
 # import necessary libraries
+import sys
+import time
 import pandas as pd # for data manipulation
 import requests # for making HTTP requests
 import colorama # for colored terminal text
@@ -214,22 +216,22 @@ class StatsAnalyzer:
         print(stats_df)
 
         print(Fore.GREEN + "\n[!] Match analysis completed successfully!" + Style.RESET_ALL)
-        self.indvidual_stats_prompt()
+        if self.indvidual_stats_prompt():
+            self.analyze_player_stats(events)
         return stats_df
     
     def indvidual_stats_prompt(self):
+        '''
+            prompt user to continue to individual player stats analysis or exit
+        '''
         try:
-            '''
-            prompt user to continue to individual player stats analysis or exit'''
             while True:
                 choice = input(Fore.GREEN + "\n[+] Do you want to analyze this match individual player stats?  (y/n): " + Style.RESET_ALL).strip().lower()
                 if choice == 'y'.lower():
-                    print(Fore.CYAN + "\n[+] Individual player stats analysis is not yet implemented." + Style.RESET_ALL)
-                    # Placeholder for future implementation
-                    return None
+                    return True
                 elif choice == 'n':
                     print(Fore.CYAN + "\n[+] Exiting individual players stats analysis." + Style.RESET_ALL)
-                    return None
+                    return False
                 else:
                     print(Fore.RED + "[-] Invalid choice. Please enter 'y' or 'n'." + Style.RESET_ALL)
             
@@ -239,7 +241,85 @@ class StatsAnalyzer:
 
 
         
-        
+    def analyze_player_stats(self, events):
+        '''
+        Analyze individual player statistics from match events.
+        Arguments:
+            events (list): List of event dictionaries from the match.
+        Returns:
+            pd.DataFrame: DataFrame containing individual player statistics.   
+        '''
+        records = [] 
+        # iterate over each event in the events list
+        for e in events:
+            # extract relevant details using .get() to avoid KeyErrors
+            player = e.get("player", {}).get("name")
+            team = e.get("team", {}).get("name")
+            event_type = e.get("type", {}).get("name")
+            # skip events without player or team info
+            if not player or not team:
+                continue
+
+            outcome = e.get("shot", {}).get("outcome", {}).get("name") if "shot" in e else None
+            pass_type = e.get("pass", {}).get("type", {}).get("name") if "pass" in e else None
+            card_type = e.get("foul_committed", {}).get("card", {}).get("name") if "foul_committed" in e else None
+            # append event record to the records list declared above
+            records.append({
+                "player": player,
+                "team": team,
+                "event": event_type,
+                "outcome": outcome,
+                "pass_type": pass_type,
+                "card_type": card_type
+            })
+        # convert records list to pandas DataFrame
+        df = pd.DataFrame(records)
+        df = df.dropna(subset=["player", "team"])
+
+        stats = [] # an empty list to hold player stats dictionaries
+        # iterate over each unique player in the DataFrame
+        for player in df["player"].unique():
+            player_df = df[df["player"] == player]
+            team_name = player_df["team"].iloc[0]
+
+            shots = len(player_df[player_df["event"] == "Shot"])
+            goals = len(player_df[(player_df["event"] == "Shot") & (player_df["outcome"] == "Goal")])
+            passes = len(player_df[player_df["event"] == "Pass"])
+            yellow_cards = len(player_df[player_df["card_type"] == "Yellow Card"])
+            red_cards = len(player_df[player_df["card_type"] == "Red Card"])
+            
+            stats.append({
+                "player": player,
+                "team": team_name,
+                "Shots": shots,
+                "Goals": goals,
+                "Passes": passes,
+                "Yellow Cards": yellow_cards,
+                "Red Cards": red_cards
+            })
+        stats_df = pd.DataFrame(stats)
+        stats_df = stats_df.sort_values(["team", "Goals", "Shots"], ascending=[True, False, False])
+        print(Fore.CYAN + "\n[+] Player Statistics:\n" + Style.RESET_ALL)
+        print(stats_df)
+        print(Fore.GREEN + "\n[!] Individual player stats analysis completed successfully!" + Style.RESET_ALL)
+        self.Thank_you_message()
+        return stats_df
+    
+    def Thank_you_message(self):
+        '''
+        Display a thank you message to the user.
+        '''
+        messages = [
+            "\n[+] Thank you for using Ballalysis - Football Match Stats Analyzer!",
+            "\n[+] Developed by Tarik Ataia.",
+            "\n[+] Goodbye!"
+        ]
+        for msg in messages:
+            for char in msg + "\n":
+                sys.stdout.write(char)
+                sys.stdout.flush()
+                time.sleep(0.02)
+    
         
         
         
