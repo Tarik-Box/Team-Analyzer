@@ -214,10 +214,10 @@ class StatsAnalyzer:
         print(stats_df)
 
         print(Fore.GREEN + "\n[!] Match analysis completed successfully!" + Style.RESET_ALL)
-        self.indvidual_stats()
+        self.indvidual_stats_prompt()
         return stats_df
     
-    def indvidual_stats(self):
+    def indvidual_stats_prompt(self):
         try:
             '''
             prompt user to continue to individual player stats analysis or exit'''
