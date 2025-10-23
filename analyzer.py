@@ -301,7 +301,7 @@ class StatsAnalyzer:
             sys.stdout.flush()
             time.sleep(0.08)
         
-        print(stats_df.to_string(index=False))
+        print(stats_df)
         print(Fore.GREEN + "\n[!] Individual player stats analysis completed successfully!" + Style.RESET_ALL)
         self.thank_you_message()
         return stats_df
