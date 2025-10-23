@@ -126,18 +126,22 @@ class StatsAnalyzer:
             matches_url = f"{self.base_url}matches/{self.competition_id}/{self.season_id}.json"
             data = self.get_json(matches_url)
             for match in data:
-                print("[+] Searching for the match...")
-                print(f"********************************************")
+                print(f"\n********************************************")
                 print(f"[+] {Fore.GREEN}Found match{Style.RESET_ALL}: {match['home_team']['home_team_name']} VS {match['away_team']['away_team_name']}")
                 # check if this is the match we are looking for and get its match id
                 if (match["home_team"]["home_team_name"] == home_team and 
                     match["away_team"]["away_team_name"] == away_team):
                     match_id = match["match_id"]
+                    print(f"[+] Fetching events data for the match...")
+                    print(f"********************************************")
                     print(f"\n {Fore.YELLOW}[+] Found match ID:{Style.RESET_ALL} {match_id}")
                     events_url = f"{self.base_url}events/{match_id}.json"
+                    
+                    print(Fore.CYAN + "\n[+] Match Events Data URL:\n" + Style.RESET_ALL, events_url)
+                    
                     events_data = self.get_json(events_url)
                     # if events data is found, return it
-                    self.analyze_shots(events_data)
+                    self.analyze_match_summary(events_data)
                     return events_data
                 
             # if no match is found, inform the user with available teams and matches
@@ -151,12 +155,67 @@ class StatsAnalyzer:
             return None
         
         
-    def analyze_shots(self, events):
-        for t in events:
-            print(t["type"]["name"])
-        shots = [e for e in events if e["type"]["name"] == "Shot"]
-        df = pd.DataFrame(shots)
-        print(f"[+] Total shots: {len(df)}")
+    def analyze_match_summary(self, events):
+        """
+        Analyze full match events and produce a summary table for each team.
+        """
+        records = [] # an empty list to hold event records
+        for e in events:
+            # as the events data is nested JSON, we need can use .get() method to safely extract values and avoid KeyErrors (*_-)
+            records.append({
+                "team": e.get("team", {}).get("name"),
+                "event": e.get("type", {}).get("name"),
+                "outcome": e.get("shot", {}).get("outcome", {}).get("name") if "shot" in e else None,
+                "pass_type": e.get("pass", {}).get("type", {}).get("name") if "pass" in e else None,
+                "card_type": e.get("foul_committed", {}).get("card", {}).get("name") if "foul_committed" in e else None
+            })
+        df = pd.DataFrame(records)
+
+        df = df.dropna(subset=["team"])
+
+        stats = {}
+        # .unique() to get unique team names , it will return a Numpy array > "ndarray"
+        for team in df["team"].unique():
+            team_df = df[df["team"] == team]
+            
+            shots = len(team_df[team_df["event"] == "Shot"])
+            goals = len(team_df[(team_df["event"] == "Shot") & (team_df["outcome"] == "Goal")])
+            passes = len(team_df[team_df["event"] == "Pass"])
+            fouls = len(team_df[team_df["event"] == "Foul Committed"])
+            corners = len(team_df[(team_df["event"] == "Pass") & (team_df["pass_type"] == "Corner")])
+            yellow_cards = len(team_df[team_df["card_type"] == "Yellow Card"])
+            red_cards = len(team_df[team_df["card_type"] == "Red Card"])
+
+            # store stats in a dictionary declared above , the key is the team name
+            
+            stats[team] = {
+                "Shots": shots,
+                "Goals": goals,
+                "Passes": passes,
+                "Fouls": fouls,
+                "Corners": corners,
+                "Yellow Cards": yellow_cards,
+                "Red Cards": red_cards
+            }
+
+        # display stats in a tabular format using pandas DataFrame
+        stats_df = pd.DataFrame(stats).T  #
+        # fill NaN values with 0 and convert to integer type for better readability
+        stats_df = stats_df.fillna(0).astype(int)
+        
+        # print final score
+        if len(stats_df) == 2:
+            teams = stats_df.index.tolist()
+            score = f"{teams[0]} {stats_df.loc[teams[0], 'Goals']} - {stats_df.loc[teams[1], 'Goals']} {teams[1]}"
+            print(Fore.CYAN + "\n[+] Final Score:" + Style.RESET_ALL, Fore.YELLOW + score + Style.RESET_ALL)
+
+        print(Fore.CYAN + "\n[+] Match Summary Table:\n" + Style.RESET_ALL)
+        # print the stats dataframe
+        print(stats_df)
+
+        print(Fore.GREEN + "\n[!] Match analysis completed successfully!" + Style.RESET_ALL)
+        return stats_df
+
 
         
         
@@ -164,7 +223,7 @@ class StatsAnalyzer:
         
         
         
-        
-teset_analyzer = StatsAnalyzer(base_url="https://raw.githubusercontent.com/statsbomb/open-data/refs/heads/master/data/", season="2018/2019")
+if __name__ == "__main__":        
+    analyzer = StatsAnalyzer(base_url="https://raw.githubusercontent.com/statsbomb/open-data/refs/heads/master/data/", season="2018/2019")
 
-teset_analyzer.fetch_teams()
+    analyzer.fetch_teams()
