@@ -207,14 +207,35 @@ class StatsAnalyzer:
         if len(stats_df) == 2:
             teams = stats_df.index.tolist()
             score = f"{teams[0]} {stats_df.loc[teams[0], 'Goals']} - {stats_df.loc[teams[1], 'Goals']} {teams[1]}"
-            print(Fore.CYAN + "\n[+] Final Score:" + Style.RESET_ALL, Fore.YELLOW + score + Style.RESET_ALL)
-
+            print(Fore.CYAN + "\n[+] Final Score:" + Style.RESET_ALL, Fore.YELLOW + score + Style.RESET_ALL + "\n")
+        print("*" * 60)
         print(Fore.CYAN + "\n[+] Match Summary Table:\n" + Style.RESET_ALL)
         # print the stats dataframe
         print(stats_df)
 
         print(Fore.GREEN + "\n[!] Match analysis completed successfully!" + Style.RESET_ALL)
+        self.indvidual_stats()
         return stats_df
+    
+    def indvidual_stats(self):
+        try:
+            '''
+            prompt user to continue to individual player stats analysis or exit'''
+            while True:
+                choice = input(Fore.GREEN + "\n[+] Do you want to analyze this match individual player stats?  (y/n): " + Style.RESET_ALL).strip().lower()
+                if choice == 'y'.lower():
+                    print(Fore.CYAN + "\n[+] Individual player stats analysis is not yet implemented." + Style.RESET_ALL)
+                    # Placeholder for future implementation
+                    return None
+                elif choice == 'n':
+                    print(Fore.CYAN + "\n[+] Exiting individual players stats analysis." + Style.RESET_ALL)
+                    return None
+                else:
+                    print(Fore.RED + "[-] Invalid choice. Please enter 'y' or 'n'." + Style.RESET_ALL)
+            
+        except Exception as e:
+            print(Fore.RED + f"[-] An error occurred in individual stats analysis: {e}" + Style.RESET_ALL)
+            return None
 
 
         
