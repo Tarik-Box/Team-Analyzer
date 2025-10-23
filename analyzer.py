@@ -133,7 +133,7 @@ class StatsAnalyzer:
                     match["away_team"]["away_team_name"] == away_team):
                     match_id = match["match_id"]
                     print("[+] Fetching events data for the match...")
-                    print("********************************************")
+                    print("*"*70)
                     print(f"\n {Fore.YELLOW}[+] Found match ID:{Style.RESET_ALL} {match_id}")
                     events_url = f"{self.base_url}events/{match_id}.json"
                     
@@ -204,7 +204,7 @@ class StatsAnalyzer:
             teams = stats_df.index.tolist()
             score = f"{teams[0]} {stats_df.loc[teams[0], 'Goals']} - {stats_df.loc[teams[1], 'Goals']} {teams[1]}"
             print(Fore.CYAN + "\n[+] Final Score:" + Style.RESET_ALL, Fore.YELLOW + score + Style.RESET_ALL + "\n")
-        print("*" * 60)
+        print("*"*70)
         summary = "\n[+] Match Summary Table:\n"
         for s in summary:
             sys.stdout.write(f"{Fore.CYAN}{s}{Style.RESET_ALL}")
@@ -261,7 +261,6 @@ class StatsAnalyzer:
 
             outcome = e.get("shot", {}).get("outcome", {}).get("name") if "shot" in e else None
             pass_type = e.get("pass", {}).get("type", {}).get("name") if "pass" in e else None
-            card_type = e.get("foul_committed", {}).get("card", {}).get("name") if "foul_committed" in e else None
             # append event record to the records list declared above
             records.append({
                 "player": player,
@@ -269,7 +268,6 @@ class StatsAnalyzer:
                 "event": event_type,
                 "outcome": outcome,
                 "pass_type": pass_type,
-                "card_type": card_type
             })
         # convert records list to pandas DataFrame
         df = pd.DataFrame(records)
@@ -295,14 +293,18 @@ class StatsAnalyzer:
             })
         stats_df = pd.DataFrame(stats)
         stats_df = stats_df.sort_values(["team", "Goals", "Shots"], ascending=[True, False, False])
-        statistics = "\n[+] Player Statistics:\n"
+        print("*"*70)
+        statistics = "\n\t\t[+] Player Statistics:\n"
         for st in statistics:
             sys.stdout.write(f"{Fore.CYAN}{st}{Style.RESET_ALL}")
             sys.stdout.flush()
             time.sleep(0.08)
-        
-        print(stats_df)
-        print(Fore.GREEN + "\n[!] Individual player stats analysis completed successfully!" + Style.RESET_ALL)
+        print("\n")
+        print("*"*70)
+        stats_df.reset_index(drop=True, inplace=True)
+        print(f"\n{stats_df}")
+        print(Fore.GREEN + "\n[!] Individual player stats analysis completed successfully!\n" + Style.RESET_ALL)
+        print("*"*70)
         self.thank_you_message()
         return stats_df
     
