@@ -92,6 +92,7 @@ if __name__ == "__main__":
         season = get_season()  # call the function to get selected season by user
         if season:
             analyzer = StatsAnalyzer(base_url=BASE_URL ,season=season)
+            analyzer.main()
             
             
         else:

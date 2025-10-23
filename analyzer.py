@@ -59,7 +59,6 @@ class StatsAnalyzer:
         This method prompts user to select a team from the fetched teams list.
         """
         try:
-            print(f"{Fore.RED}!--> Note: If the selected match is not found!\n!--> Try to pick *Barcelona* as they have the most matches on the StatsBomb API\n")
             try:
                 while True:
                     team_choice = input(Fore.GREEN + "    Your choice: " + Style.RESET_ALL).strip()
@@ -100,6 +99,8 @@ class StatsAnalyzer:
         print(Fore.GREEN + f"[+] Teams found in La Liga {self.season}:" + Style.RESET_ALL)
         for team in all_teams:
             print(f"    - {team}")
+        print(f"{Fore.RED}!--> Note: If the selected match is not found!\n!--> Try to pick *Barcelona* as they have the most matches on the StatsBomb API\n")
+        
 
         print(Fore.CYAN + "\n[+] Home Team Name: " + Style.RESET_ALL)
         team_choice1 = self.team_select(all_teams.tolist())
@@ -312,8 +313,6 @@ class StatsAnalyzer:
                 sys.stdout.write(char)
                 sys.stdout.flush()
                 time.sleep(0.02)
-        
-if __name__ == "__main__":        
-    analyzer = StatsAnalyzer(base_url="https://raw.githubusercontent.com/statsbomb/open-data/refs/heads/master/data/", season="2018/2019")
-
-    analyzer.fetch_teams()
+                
+    def main(self):
+        self.fetch_teams()
