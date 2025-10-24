@@ -74,7 +74,8 @@ class StatsAnalyzer:
             except ValueError as e:
                 print(Fore.RED + f"[-] An error occurred during team selection: {e}" + Style.RESET_ALL)
         except KeyboardInterrupt:
-            exit(Fore.RED + "\n[-] User interrupted the team selection. Exiting ..." + Style.RESET_ALL)
+            print(Fore.RED + "\n[-] User interrupted the team selection. Exiting ..." + Style.RESET_ALL)
+            sys.exit(0)
     
     def fetch_teams(self):
         """
@@ -105,21 +106,23 @@ class StatsAnalyzer:
             sys.stdout.flush()
             time.sleep(0.02)
         print("\n" + "-"*50)
-        print(f"{Fore.RED}\n\n!--> Note: If the selected match is not found!\n!--> Try to pick *Barcelona* as they have the most matches on the StatsBomb API\n")
+        print(f"{Fore.RED}\n\n!--> Note: If the selected match is not found!\n!\t\tTry to pick *Barcelona* as they have the most matches on the StatsBomb API\n")
         
 
         print(Fore.CYAN + "\n[+] Home Team Name: " + Style.RESET_ALL)
-        team_choice1 = self.team_select(all_teams.tolist())
+        # get home team from team_select method
+        selected_home_team = self.team_select(all_teams.tolist())
 
         print(Fore.CYAN + "\n[+] Away Team Name: " + Style.RESET_ALL)
-        team_choice2 = self.team_select(all_teams.tolist())
+        # get home team from team_select method
+        selected_away_team = self.team_select(all_teams.tolist())
 
-        if team_choice1 == team_choice2:
+        if selected_home_team == selected_away_team:
             print(Fore.RED + "[-] Home and Away teams cannot be the same." + Style.RESET_ALL)
             return self.fetch_teams()
 
-        print(f"\n[+] Selected match: {Fore.CYAN}{team_choice1}{Style.RESET_ALL} VS {Fore.CYAN}{team_choice2}{Style.RESET_ALL}")
-        self.fetch_match_data(team_choice1, team_choice2)
+        print(f"\n[+] Selected match: {Fore.CYAN}{selected_home_team}{Style.RESET_ALL} VS {Fore.CYAN}{selected_away_team}{Style.RESET_ALL}")
+        self.fetch_match_data(selected_home_team, selected_away_team)
         return all_teams.tolist()
         
     def fetch_match_data(self, home_team, away_team):
@@ -133,8 +136,8 @@ class StatsAnalyzer:
             for match in data:
                 print(f"[+] {Fore.GREEN}Found match{Style.RESET_ALL}: {match['home_team']['home_team_name']} VS {match['away_team']['away_team_name']}")
                 # check if this is the match we are looking for and get its match id
-                if (match["home_team"]["home_team_name"] == home_team and 
-                    match["away_team"]["away_team_name"] == away_team):
+                if (match["home_team"]["home_team_name"].lower() == home_team.lower() and 
+                    match["away_team"]["away_team_name"].lower() == away_team.lower()):
                     match_id = match["match_id"]
                     print("[+] Fetching events data for the match...")
                     print("*"*70)
@@ -161,6 +164,8 @@ class StatsAnalyzer:
         """
         records = [] # an empty list to hold event records
         for e in events:
+            if not e: 
+                continue
             # as the events data is nested JSON, we need can use .get() method to safely extract values and avoid KeyErrors (*_-)
             records.append({
                 "team": e.get("team", {}).get("name"),
@@ -229,7 +234,7 @@ class StatsAnalyzer:
         try:
             while True:
                 choice = input(Fore.GREEN + "\n[+] Do you want to analyze this match individual player stats?  (y/n): " + Style.RESET_ALL).strip().lower()
-                if choice == 'y'.lower():
+                if choice == 'y':
                     return True
                 elif choice == 'n':
                     print(Fore.CYAN + "\n[+] Exiting individual players stats analysis." + Style.RESET_ALL)
@@ -239,9 +244,6 @@ class StatsAnalyzer:
             
         except KeyboardInterrupt as e:
             print(Fore.RED + f"[-] An error occurred in individual stats analysis: {e}" + Style.RESET_ALL)
-            return None
-        except ValueError :
-            print(Fore.RED + "[-] Invalid choice. Please enter 'y' or 'n'." + Style.RESET_ALL)
             return None
         
     def analyze_player_stats(self, events):
@@ -321,7 +323,7 @@ class StatsAnalyzer:
             "\n[+] Developed by Tarik Ataia.",
             "\n[+] Goodbye!"
         ]
-        time.sleep(3.0)
+        time.sleep(1.5)
         for msg in messages:
             for char in msg + "\n":
                 sys.stdout.write(char)
@@ -330,3 +332,4 @@ class StatsAnalyzer:
                 
     def main(self):
         self.fetch_teams()
+        return True
