@@ -35,7 +35,7 @@ class StatsAnalyzer:
             req.raise_for_status()
             return req.json()
         except requests.exceptions.RequestException as e:
-            print(f"[-] Error fetching data from {url}: {e}")
+            print(Fore.RED + f"[-] Error fetching data from {url}: {e}" + Style.RESET_ALL)
             return None
 
     def fetch_competition_ids(self):
@@ -52,7 +52,9 @@ class StatsAnalyzer:
                 self.season_id = competition['season_id']
                 print(f"[+] Fetched competition info for La Liga {self.season}.")
                 return self.competition_id, self.season_id
-        return "[-] Competition info not found."
+        print("[-] Competition info not found.")
+        return None
+
     
     def team_select(self, teams):
         """
@@ -294,7 +296,7 @@ class StatsAnalyzer:
         stats_df = pd.DataFrame(stats)
         stats_df = stats_df.sort_values(["team", "Goals", "Shots"], ascending=[True, False, False])
         print("*"*70)
-        statistics = "\n\t\t[+] Player Statistics:\n"
+        statistics = "\n\t\t\t[+] Player Statistics:\n"
         for st in statistics:
             sys.stdout.write(f"{Fore.CYAN}{st}{Style.RESET_ALL}")
             sys.stdout.flush()
