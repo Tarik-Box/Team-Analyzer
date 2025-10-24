@@ -62,16 +62,17 @@ class StatsAnalyzer:
         """
         try:
             try:
+                # Prepare for case-insensitive selection:
+                # - Build a lowercase lookup list from the provided 'teams' iterable.
+                teams_l = [t.lower() for t in teams]
                 while True:
                     team_choice = input(Fore.GREEN + "    Your choice: " + Style.RESET_ALL).strip()
-                    if team_choice in teams:
-                        
-                        return team_choice
+                    if team_choice.lower() in teams_l:
+                        return teams[teams_l.index(team_choice.lower())]
                     else:
                         print(Fore.RED + "[-] Invalid team selection. Please choose a valid team from the list." + Style.RESET_ALL)
             except ValueError as e:
                 print(Fore.RED + f"[-] An error occurred during team selection: {e}" + Style.RESET_ALL)
-                return None
         except KeyboardInterrupt:
             exit(Fore.RED + "\n[-] User interrupted the team selection. Exiting ..." + Style.RESET_ALL)
     
