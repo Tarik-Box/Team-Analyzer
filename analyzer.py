@@ -104,6 +104,7 @@ class StatsAnalyzer:
             sys.stdout.write(f"\n\t{Fore.CYAN}{team}{Style.RESET_ALL}")
             sys.stdout.flush()
             time.sleep(0.02)
+        print("\n" + "-"*50)
         print(f"{Fore.RED}\n\n!--> Note: If the selected match is not found!\n!--> Try to pick *Barcelona* as they have the most matches on the StatsBomb API\n")
         
 
@@ -115,7 +116,7 @@ class StatsAnalyzer:
 
         if team_choice1 == team_choice2:
             print(Fore.RED + "[-] Home and Away teams cannot be the same." + Style.RESET_ALL)
-            return None
+            return self.fetch_teams()
 
         print(f"\n[+] Selected match: {Fore.CYAN}{team_choice1}{Style.RESET_ALL} VS {Fore.CYAN}{team_choice2}{Style.RESET_ALL}")
         self.fetch_match_data(team_choice1, team_choice2)
