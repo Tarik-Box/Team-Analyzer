@@ -106,7 +106,7 @@ class StatsAnalyzer:
             sys.stdout.flush()
             time.sleep(0.02)
         print("\n" + "-"*50)
-        print(f"{Fore.RED}\n\n!--> Note: If the selected match is not found!\n!\tTry to pick *Barcelona* as they have the most matches on the StatsBomb API\n")
+        print(f"{Fore.RED}\n\n!--> Note: If the selected match is not found!\n  Try to pick *Barcelona* as they have the most matches on the StatsBomb API\n")
         
 
         print(Fore.CYAN + "\n[+] Home Team Name: " + Style.RESET_ALL)
@@ -323,12 +323,12 @@ class StatsAnalyzer:
             "\n[+] Developed by Tarik Ataia.",
             "\n[+] Goodbye!"
         ]
-        time.sleep(1.0)
+        time.sleep(0.5)
         for msg in messages:
             for char in msg + "\n":
                 sys.stdout.write(char)
                 sys.stdout.flush()
-                time.sleep(0.1)
+                time.sleep(0.05)
                 
     def main(self):
         self.fetch_teams()
