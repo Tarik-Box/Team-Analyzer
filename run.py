@@ -27,6 +27,7 @@ Github Repo :  https://github.com/statsbomb/open-data/tree/master
 
 '''
 
+# Base URL for fetching StatsBomb open data
 BASE_URL = "https://raw.githubusercontent.com/statsbomb/open-data/refs/heads/master/data/"
 
 
@@ -51,7 +52,7 @@ def get_season():
         print(Fore.YELLOW + "    1. 2018/2019" + Style.RESET_ALL)
         print(Fore.YELLOW + "    2. 2019/2020" + Style.RESET_ALL)
         try:
-            print(Fore.YELLOW + "\n[+] Please select the season you want to analyze \n" + Style.RESET_ALL)
+            print(Fore.YELLOW + "\n[+] Select the season you want to analyze (1 or 2):" + Style.RESET_ALL)
             # prompt user for season choice
             while True:
                 season_choice = input(Fore.GREEN + "    Your choice: " + Style.RESET_ALL).strip()
@@ -93,18 +94,14 @@ if __name__ == "__main__":
         if season:
             analyzer = StatsAnalyzer(base_url=BASE_URL ,season=season)
             analyzer.main()
-            
-            
+
         else:
             print(Fore.RED + "[!] Season selection failed. Exiting ..." + Style.RESET_ALL)
             exit(1)
-    except Exception as e:
-        print(Fore.RED + f"\n[!] An unexpected error occurred: {e}" + Style.RESET_ALL)
-        exit(1)
-        
-        
-        
     # handle keyboard interrupt by user
     except KeyboardInterrupt:
         print(Fore.RED + "\n[!] Process interrupted by user. Exiting ..." + Style.RESET_ALL)
         exit(0)
+    except Exception as e:
+        print(Fore.RED + f"\n[!] An unexpected error occurred: {e}" + Style.RESET_ALL)
+        exit(1)

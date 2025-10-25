@@ -323,12 +323,12 @@ class StatsAnalyzer:
             "\n[+] Developed by Tarik Ataia.",
             "\n[+] Goodbye!"
         ]
-        time.sleep(1.5)
+        time.sleep(1.0)
         for msg in messages:
             for char in msg + "\n":
                 sys.stdout.write(char)
                 sys.stdout.flush()
-                time.sleep(0.2)
+                time.sleep(0.1)
                 
     def main(self):
         self.fetch_teams()
