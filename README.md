@@ -1,8 +1,18 @@
-![CI logo](https://codeinstitute.s3.amazonaws.com/fullstack/ci_logo_small.png)
+Team Analyzer
 
-Welcome,
+**Team Analyzer** is a Python-based interactive CLI tool designed to fetch, process, and analyze football match data from a public API.  
+It combines clean data presentation with a visually engaging terminal interface for a smoother user experience.  
+The project has been successfully **deployed on Heroku** and is fully operational.
 
-This is the Code Institute student template for deploying your third portfolio project, the Python command-line project. The last update to this file was: **May 14, 2024**
+> 🧾 **Note on Project Structure:**  
+> The project consists of three main Python files:
+> - `banners.py` → An old file reused and updated to enhance the **user experience (UX)** through terminal banners and colored messages.  
+While not essential to the core logic, it enhances the visual and interactive aspects of the tool.  
+> - `analyzer.py` → Contains the **main analytical logic**, API handling, and data processing.  
+> - `run.py` → Acts as the **entry point**, managing execution flow and user interaction.
+>
+> The focus of the technical evaluation should mainly be on `analyzer.py` and `run.py`,  
+> as they represent the functional backbone of the application.
 
 ## Reminders
 
