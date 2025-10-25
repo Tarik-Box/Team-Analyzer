@@ -50,6 +50,8 @@ It’s designed to be both informative and easy to use, providing a starting poi
 
 ![Greeting Banner](assets/images/greeting-banner.png)
 
+![Script look](assets/images/keyboardInterrupt.png)
+
 ---
 
 ## Reminders
