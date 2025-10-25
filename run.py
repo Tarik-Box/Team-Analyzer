@@ -9,20 +9,23 @@
 from analyzer import StatsAnalyzer 
 # Write analyzer module to make the code modular and organized and readable
 # import StatsAnalyzer class from custom analyzer module .
-# StatsAnalyzer class handles fetching and analyzing football data from StatsBomb Open Data API.
+# StatsAnalyzer class handles fetching and analyzing football
+# data from StatsBomb Open Data API.
 # As the code will grow, we will add more functionalities to this class.
 
-import colorama # for colored terminal text
+import banners as bnr  # custom module for displaying banners
+import colorama  # for colored terminal text
 from colorama import Fore, Style
-colorama.init(autoreset=True) # initialize colorama
-import banners as bnr # custom module for displaying banners
+colorama.init(autoreset=True)  # initialize colorama
 
 
 '''
 
 This is the main execution file for BallAlysis - Simple Football Data Analyzer.
-It imports necessary libraries and displays a welcome message using the custom banners module.
-This script fetches and analyzes football data and players stats from StatsBomb Open Data API.
+It imports necessary libraries and displays a welcome message
+using the custom banners module.
+This script fetches and analyzes football data and players stats 
+from StatsBomb Open Data API.
 Github Repo :  https://github.com/statsbomb/open-data/tree/master
 
 '''
@@ -40,11 +43,14 @@ def welcome_message():
     print(Fore.CYAN + "----------------------------------------" + Style.RESET_ALL)
     return
 
+
 # function to get season input from user
 def get_season():
+
     '''
         Function to get the season input from the user for analysis.
-        As La Liga is the main focus of this tool and the most liga that has API data, we will provide options for La Liga seasons.
+        As La Liga is the main focus of this tool and the most liga that has
+        API data, we will provide options for La Liga seasons.
     '''
     try:
         print(Fore.CYAN + "\n[+] Available La Liga Seasons for Analysis:" + Style.RESET_ALL)
@@ -77,12 +83,13 @@ def get_season():
 if __name__ == "__main__":
     try:
         welcome_message()
-        # this script currently focuses on La Liga only on two seasons: 2018/2019 and 2019/2020
-        # it can be extended to include more leagues and seasons ... etc in the future.
+        # this script currently focuses on La Liga only on two seasons:
+        # 2018/2019 and 2019/2020
+        # it can be extended to include more leagues and seasons in the future.
         # it made simple for project submission purposes.
-        season = get_season()  # call the function to get selected season by user
+        season = get_season()  # call to get selected season by user
         if season:
-            analyzer = StatsAnalyzer(base_url=BASE_URL ,season=season)
+            analyzer = StatsAnalyzer(base_url=BASE_URL, season=season)
             analyzer.main()
 
         else:

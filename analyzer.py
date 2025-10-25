@@ -7,31 +7,35 @@
 # import necessary libraries
 import sys
 import time
-import pandas as pd # for data manipulation
-import requests # for making HTTP requests
-import colorama # for colored terminal text
+import pandas as pd  # for data manipulation
+import requests  # for making HTTP requests
+import colorama  # for colored terminal text
 from colorama import Fore, Style
-colorama.init(autoreset=True) # initialize colorama
+colorama.init(autoreset=True)  # initialize colorama
+
 
 class StatsAnalyzer:
     """
-        This class handles fetching and analyzing football data from the StatsBomb Open Data API.
+        This class handles fetching and analyzing football data
+        from the StatsBomb Open Data API.
     """
-    def __init__(self,base_url='', season="2018/2019"):
+    def __init__(self, base_url='', season="2018/2019"):
         self.base_url = base_url
         self.season = season
-        # competition id and season id will be set based on returned data from competitions.json
+        # competition id and season id :
+        # will be set based on returned data from competitions.json
         self.competition_id = None
         self.season_id = None
-        
+
     # method to fetch JSON data from a given URL
-    # this method writen to not repeat the same code everytime we need to fetch JSON data from a URL  
-    def get_json(self,url):
+    # this method writen to not repeat the same code everytime
+    # we need to fetch JSON data from a URL
+    def get_json(self, url):
         """
         This method fetches JSON data from the provided URL.
         """
         try:
-            req = requests.get(url , timeout=10)
+            req = requests.get(url, timeout=10)
             req.raise_for_status()
             return req.json()
         except requests.exceptions.RequestException as e:
@@ -39,9 +43,10 @@ class StatsAnalyzer:
             return None
 
     def fetch_competition_ids(self):
-        
+
         """
-        this method will fetch competition infos such as competition id and season id
+        this method will fetch competition infos
+        such as competition id and season id
         """
         competition_url = self.base_url + "competitions.json"
         competition_data = self.get_json(competition_url)
@@ -55,7 +60,6 @@ class StatsAnalyzer:
         print("[-] Competition info not found.")
         return None
 
-    
     def team_select(self, teams):
         """
         This method prompts user to select a team from the fetched teams list.
@@ -63,7 +67,7 @@ class StatsAnalyzer:
         try:
             try:
                 # Prepare for case-insensitive selection:
-                # - Build a lowercase lookup list from the provided 'teams' iterable.
+                # - Build a lowercase lookup list from the provided 'teams'.
                 teams_l = [t.lower() for t in teams]
                 while True:
                     team_choice = input(Fore.GREEN + "    Your choice: " + Style.RESET_ALL).strip()
@@ -76,7 +80,7 @@ class StatsAnalyzer:
         except KeyboardInterrupt:
             print(Fore.RED + "\n[-] User interrupted the team selection. Exiting ..." + Style.RESET_ALL)
             sys.exit(0)
-    
+
     def fetch_teams(self):
         """
         Fetch and display teams participating in the selected competition.
@@ -100,14 +104,15 @@ class StatsAnalyzer:
         # Combine and sort
         all_teams = pd.concat([home_teams, away_teams]).drop_duplicates().sort_values().reset_index(drop=True)
 
-        print(Fore.GREEN + f"\n[+] Teams found in La Liga:\n" + Style.RESET_ALL)
+        print(Fore.GREEN + "\n[+] Teams found in La Liga:\n" + Style.RESET_ALL)
         for team in all_teams:
             sys.stdout.write(f"\n\t{Fore.CYAN}{team}{Style.RESET_ALL}")
             sys.stdout.flush()
             time.sleep(0.02)
         print("\n" + "-"*50)
-        print(f"{Fore.RED}\n\n!--> Note: If the selected match is not found!\n  Try to pick *Barcelona* as they have the most matches on the StatsBomb API\n")
-        
+        print(f"""{Fore.RED}\n\n!--> Note: If the selected match is not found!
+              Try to pick *Barcelona* as they have the most matches
+                on the StatsBomb API\n""")
 
         print(Fore.CYAN + "\n[+] Home Team Name: " + Style.RESET_ALL)
         # get home team from team_select method
@@ -124,10 +129,11 @@ class StatsAnalyzer:
         print(f"\n[+] Selected match: {Fore.CYAN}{selected_home_team}{Style.RESET_ALL} VS {Fore.CYAN}{selected_away_team}{Style.RESET_ALL}")
         self.fetch_match_data(selected_home_team, selected_away_team)
         return all_teams.tolist()
-        
+
     def fetch_match_data(self, home_team, away_team):
         """
-        Fetch events data for a specific match between home_team and away_team if found.
+        Fetch events data for a specific match between
+        home_team and away_team if found.
         """
         # Get match ID first
         try:
@@ -135,38 +141,38 @@ class StatsAnalyzer:
             data = self.get_json(matches_url)
             for match in data:
                 print(f"[+] {Fore.GREEN}Found match{Style.RESET_ALL}: {match['home_team']['home_team_name']} VS {match['away_team']['away_team_name']}")
-                # check if this is the match we are looking for and get its match id
-                if (match["home_team"]["home_team_name"].lower() == home_team.lower() and 
+                # check if this is the match we are looking for and get its id
+                if (match["home_team"]["home_team_name"].lower() == home_team.lower() and
                     match["away_team"]["away_team_name"].lower() == away_team.lower()):
                     match_id = match["match_id"]
                     print("[+] Fetching events data for the match...")
                     print("*"*70)
                     print(f"\n {Fore.YELLOW}[+] Found match ID:{Style.RESET_ALL} {match_id}")
                     events_url = f"{self.base_url}events/{match_id}.json"
-                    
                     print(Fore.CYAN + "\n[+] Match Events Data URL:\n" + Style.RESET_ALL, events_url)
-                    
                     events_data = self.get_json(events_url)
                     # if events data is found, return it
                     self.analyze_match_summary(events_data)
                     return events_data
-                
-            # if no match is found, inform the user with available teams and matches
+
+            # if no match is found,
+            # inform the user with available teams and matches
             print(f"\n[-] {Style.BRIGHT}Match not found on statsbomb database.{Style.RESET_ALL} ")
             print('see available teams and matches above')
             return None
         except KeyboardInterrupt:
             exit(Fore.RED + "\n[-] User interrupted the match data fetching. Exiting ..." + Style.RESET_ALL)
-        
+
     def analyze_match_summary(self, events):
         """
         Analyze full match events and produce a summary table for each team.
         """
-        records = [] # an empty list to hold event records
+        records = []  # an empty list to hold event records
         for e in events:
-            if not e: 
+            if not e:
                 continue
-            # as the events data is nested JSON, we need can use .get() method to safely extract values and avoid KeyErrors (*_-)
+            # as the events data is nested JSON, we need can use .get() method
+            # to safely extract values and avoid KeyErrors (*_-)
             records.append({
                 "team": e.get("team", {}).get("name"),
                 "event": e.get("type", {}).get("name"),
@@ -179,10 +185,11 @@ class StatsAnalyzer:
         df = df.dropna(subset=["team"])
 
         stats = {}
-        # .unique() to get unique team names , it will return a Numpy array > "ndarray"
+        # .unique() to get unique team names ,
+        # it will return a Numpy array > "ndarray"
         for team in df["team"].unique():
             team_df = df[df["team"] == team]
-            
+
             shots = len(team_df[team_df["event"] == "Shot"])
             goals = len(team_df[(team_df["event"] == "Shot") & (team_df["outcome"] == "Goal")])
             passes = len(team_df[team_df["event"] == "Pass"])
@@ -191,8 +198,9 @@ class StatsAnalyzer:
             yellow_cards = len(team_df[team_df["card_type"] == "Yellow Card"])
             red_cards = len(team_df[team_df["card_type"] == "Red Card"])
 
-            # store stats in a dictionary declared above , the key is the team name
-            
+            # store stats in a dictionary declared above ,
+            # the key is the team name
+
             stats[team] = {
                 "Shots": shots,
                 "Goals": goals,
@@ -205,9 +213,10 @@ class StatsAnalyzer:
 
         # display stats in a tabular format using pandas DataFrame
         stats_df = pd.DataFrame(stats).T  #
-        # fill NaN values with 0 and convert to integer type for better readability
+        # fill NaN values with 0 and convert to integer type
+        # for better readability
         stats_df = stats_df.fillna(0).astype(int)
-        
+
         # print final score
         if len(stats_df) == 2:
             teams = stats_df.index.tolist()
@@ -226,7 +235,7 @@ class StatsAnalyzer:
         if self.indvidual_stats_prompt():
             self.analyze_player_stats(events)
         return stats_df
-    
+
     def indvidual_stats_prompt(self):
         """
             prompt user to continue to individual player stats analysis or exit
@@ -241,20 +250,20 @@ class StatsAnalyzer:
                     return False
                 else:
                     print(Fore.RED + "[-] Invalid choice. Please enter 'y' or 'n'." + Style.RESET_ALL)
-            
+
         except KeyboardInterrupt as e:
             print(Fore.RED + f"[-] An error occurred in individual stats analysis: {e}" + Style.RESET_ALL)
             return None
-        
+
     def analyze_player_stats(self, events):
         """
         Analyze individual player statistics from match events.
-        Arguments:
-            events (list): List of event dictionaries from the match.
-        Returns:
-            pd.DataFrame: DataFrame containing individual player statistics.   
+        Arguments: events (list):
+        List of event dictionaries from the match.
+        Returns:pd.DataFrame:
+        DataFrame containing individual player statistics.
         """
-        records = [] 
+        records = []
         # iterate over each event in the events list
         for e in events:
             # extract relevant details using .get() to avoid KeyErrors
@@ -279,7 +288,7 @@ class StatsAnalyzer:
         df = pd.DataFrame(records)
         df = df.dropna(subset=["player", "team"])
 
-        stats = [] # an empty list to hold player stats dictionaries
+        stats = []  # an empty list to hold player stats dictionaries
         # iterate over each unique player in the DataFrame
         for player in df["player"].unique():
             player_df = df[df["player"] == player]
@@ -288,7 +297,7 @@ class StatsAnalyzer:
             shots = len(player_df[player_df["event"] == "Shot"])
             goals = len(player_df[(player_df["event"] == "Shot") & (player_df["outcome"] == "Goal")])
             passes = len(player_df[player_df["event"] == "Pass"])
-            
+
             short_name = " ".join(player.split()[:3])
             stats.append({
                 "player": short_name,
@@ -313,13 +322,13 @@ class StatsAnalyzer:
         print("*"*70)
         self.thank_you_message()
         return stats_df
-    
+
     def thank_you_message(self):
         """
         Display a thank you message to the user.
         """
         messages = [
-            "\n[+] Thank you for using Ballalysis - Football Match Stats Analyzer!",
+            "\n[+] Thank you for using Ballalysis - Football Analyzer!",
             "\n[+] Developed by Tarik Ataia.",
             "\n[+] Goodbye!"
         ]
@@ -329,7 +338,7 @@ class StatsAnalyzer:
                 sys.stdout.write(char)
                 sys.stdout.flush()
                 time.sleep(0.05)
-                
+
     def main(self):
         self.fetch_teams()
         return True

@@ -16,7 +16,6 @@ import sys
 import time
 import os
 import random
-import platform
 
 from colorama import Fore
 
@@ -57,32 +56,32 @@ RABBIT_BANNER = f'''
 '''
 
 BACK_BANNER = f"""
-                 ....';:::clc;..                                   
-                            ..;clol.                               
-             ...',,,,,;;;::ccclllod:                               
-                             ..,:c:;                               
-                      .,,;;,::;,'..''                              
-                .''',,..            cd;'....      *...               
-            ...'.                  .;OK0xdxkOko;,. >...             
-          ..                      c0x;.      .':oxxx,;,.           
-                                .kO,               .:okoc          
-                                cK,                   cK0d.        
-                                k0.                     'cd:.      
-                                x0.                        :'                               
-                                    xkOkdoc;,.            
-                                            ;lxxoc::,.       
-                                                     .,;. .,,'     
-     > > > >{GREEN} Track {RESET}                     .;.   '.   
-                                                          .,    .. 
-          {GREEN} No ! <<<< BackTrack{RESET}                             '    . 
-                                                             ,     
-                                                              .    
+                 ....';:::clc;..
+                            ..;clol.
+             ...',,,,,;;;::ccclllod:
+                             ..,:c:;
+                      .,,;;,::;,'..''
+                .''',,..            cd;'....      *...
+            ...'.                  .;OK0xdxkOko;,. >...
+          ..                      c0x;.      .':oxxx,;,.
+                                .kO,               .:okoc
+                                cK,                   cK0d.
+                                k0.                     'cd:.
+                                x0.                        :'
+                                    xkOkdoc;,.
+                                            ;lxxoc::,.
+                                                     .,;. .,,'
+     > > > >{GREEN} Track {RESET}                     .;.   '.
+                                                          .,    ..
+          {GREEN} No ! <<<< BackTrack{RESET}                             '    .
+                                                             ,
+                                                              .
                                                               .
 """
 
 MSF_BANNER = f'''
  ______________________________________________________________________________
-                          {RED} SuperHack II Logon{RESET}                                  
+                          {RED} SuperHack II Logon{RESET}
 |______________________________________________________________________________|
 |                                                                              |
 |                 User Name:          [   {RED}CoNdA-CoDe{RESET}    ]                      |
@@ -132,4 +131,3 @@ def banners():
         # user aborted banner display
         print("\n", EXITING_RED)
         return ""  # return empty string so caller can continue gracefully
-      
