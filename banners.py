@@ -1,23 +1,16 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-#
-'''
-###
+"""
+banners.py - simple ASCII banners and welcome messages for BallAlysis
 
-This is a simple file that contains Banners and welcome msg only !
-to give the script better interface and give the user better UXI 
-as well a litel about the script itself
+This module provides a small `banners()` function that returns a random
+banner string and prints a short startup line. Kept intentionally small
+and dependency-free (uses colorama for colors).
 
-*********************
-* Its an old banners file that i've written years ago , and reused it now with some editing
-*********************
-
-###
-__author__ = "Tarik Ataia"
-__copyright__ = "Copyright (C) 2025"
-__license__ = "Free - Public - Open Source"
-__version__ = "1.0
-'''
+Author: Tarik Ataia
+License: Free - Public - Open Source
+Version: 1.0
+"""
 
 import sys
 import time
@@ -27,21 +20,23 @@ import platform
 
 from colorama import Fore
 
+# Color aliases
 RED = Fore.RED
 GREEN = Fore.GREEN
 YELLOW = Fore.YELLOW
 CYAN = Fore.CYAN
 RESET = Fore.RESET
-exitingRED= "\n\n[ {}Exiting .. !{} ]\n".format(RED,RESET)
-exiting = "\n\n[ {}Thank You For Using Analyzer{} ]\n".format(CYAN,RESET)
 
-try:
+EXITING_RED = "\n\n[ {}Exiting .. !{} ]\n".format(RED, RESET)
+EXITING_MSG = "\n\n[ {}Thank You For Using Analyzer{} ]\n".format(CYAN, RESET)
 
-	rabit =f'''
+
+# ASCII banners (kept as module-level constants)
+RABBIT_BANNER = f'''
      Trace program: running
            wake up, Neo...
-			{CYAN}CoNdA{RESET} has you
-		follow the {YELLOW}YELLOW{RESET} rabbit.
+            {CYAN}CoNdA{RESET} has you
+        follow the {YELLOW}YELLOW{RESET} rabbit.
        knock, knock, {CYAN}Neo{YELLOW}.
 
                         (`.         ,-,
@@ -60,8 +55,8 @@ try:
                   ``-..__``--`
 {RESET}
 '''
-######################################
-	back=f"""
+
+BACK_BANNER = f"""
                  ....';:::clc;..                                   
                             ..;clol.                               
              ...',,,,,;;;::ccclllod:                               
@@ -84,8 +79,8 @@ try:
                                                               .    
                                                               .
 """
-######################################
-	msf=f'''
+
+MSF_BANNER = f'''
  ______________________________________________________________________________
                           {RED} SuperHack II Logon{RESET}                                  
 |______________________________________________________________________________|
@@ -99,30 +94,42 @@ try:
 |                                                                              |
 |______________________________________________________________________________|
 '''
-######################################
 
-except KeyboardInterrupt:
-	print(exiting)
-#----------------------------------------------------------------------
-def banners():
-    try:
-      if 'win' in platform.system() or 'Win' in platform.system():
+
+def clear_console():
+    """Clear terminal screen in a cross-platform way."""
+    if os.name == "nt":
         os.system("cls")
-      else:
-        os.system('clear')
-        
-      print(f"\n\t\tSession Started at : {GREEN} {time.ctime()} \n\t\t\t\t{GREEN}Writen By CoNdA{RESET}\n")
+    else:
+        os.system("clear")
 
-      bnrlist = [rabit, msf, back]
-      xrand = random.choice(bnrlist)
-      if xrand == back:
-        starting = "\t\t\t“The quieter you become, the more you are able to hear.”\n"
-        for x in starting:
-          sys.stdout.write(x)
-          sys.stdout.flush()
-          time.sleep(0.02)
-      else:
-        pass
-      return xrand
+
+def banners():
+    """
+    Return a random banner string and print a short startup line.
+
+    Usage:
+        print(banners())
+    """
+    try:
+        clear_console()
+        # neat startup line
+        print(f"\n\t\tSession Started at : {GREEN}{time.ctime()}{RESET}\n\t\t\t\t{GREEN}Written By CoNdA{RESET}\n")
+
+        banner_list = [RABBIT_BANNER, MSF_BANNER, BACK_BANNER]
+        chosen = random.choice(banner_list)
+
+        if chosen is BACK_BANNER:
+            starting = "\t\t\t'The quieter you become, the more you are able to hear.'\n"
+            for ch in starting:
+                sys.stdout.write(ch)
+                sys.stdout.flush()
+                time.sleep(0.02)
+
+        return chosen
+
     except KeyboardInterrupt:
-      print('\n', exitingRED)
+        # user aborted banner display
+        print("\n", EXITING_RED)
+        return ""  # return empty string so caller can continue gracefully
+      

@@ -35,11 +35,10 @@ BASE_URL = "https://raw.githubusercontent.com/statsbomb/open-data/refs/heads/mas
 def welcome_message():
     print(bnr.banners())
     print(Fore.CYAN + "\n[*] Welcome to BallAlysis - The Ultimate Football Data Analyzer!" + Style.RESET_ALL)
-    print(Fore.GREEN + "\n[*] Developed by Tarik Ataia" + Style.RESET_ALL)
+    print(Fore.GREEN + "\n[*] Developed by Tarik Ataia : [Conda]" + Style.RESET_ALL)
     print(Fore.YELLOW + "\n[*] Let's kick off your football data analysis journey!" + Style.RESET_ALL)
     print(Fore.CYAN + "----------------------------------------" + Style.RESET_ALL)
     return
-
 
 # function to get season input from user
 def get_season():
@@ -74,15 +73,6 @@ def get_season():
         print(Fore.RED + f"\n[!] An error occurred while selecting the season: {e}" + Style.RESET_ALL)
         return None
 
-
-
-
-
-
-
-    
-    
-    
 # main execution block
 if __name__ == "__main__":
     try:

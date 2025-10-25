@@ -106,7 +106,7 @@ class StatsAnalyzer:
             sys.stdout.flush()
             time.sleep(0.02)
         print("\n" + "-"*50)
-        print(f"{Fore.RED}\n\n!--> Note: If the selected match is not found!\n!\t\tTry to pick *Barcelona* as they have the most matches on the StatsBomb API\n")
+        print(f"{Fore.RED}\n\n!--> Note: If the selected match is not found!\n!\tTry to pick *Barcelona* as they have the most matches on the StatsBomb API\n")
         
 
         print(Fore.CYAN + "\n[+] Home Team Name: " + Style.RESET_ALL)
