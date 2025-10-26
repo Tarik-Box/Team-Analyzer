@@ -214,6 +214,7 @@ While BallAlysis successfully fetches and analyzes real football data from the S
 - Due to these data limitations, the project currently focuses on **La Liga (Spain) seasons (2018/2019 and 2019/2020)**,  where data accuracy is relatively high.
 - Future versions could integrate more reliable APIs or a private data source to expand analysis capabilities.
 
+---
 
 
 ## 🙌 Credits
