@@ -160,6 +160,37 @@ Designed for smooth execution and easy debugging.
 
 ---
 
+
+## 🧼 Code Quality
+
+Almost all PEP 8 and Flake8 warnings have been resolved, except for unavoidable line-length issues (mainly within banner strings).
+The code now follows a consistent style and is organized into logical, readable modules.
+
+
+---
+
+
+
+## 🚀 Future Improvements
+
+Currently, the project retrieves and analyzes match data mainly from the Spanish La Liga.
+
+Future versions could detect and list all available leagues from the API for user selection.
+
+With a richer API, the tool could evolve into a more advanced analytics platform with visual dashboards.
+
+Expansion to include additional metrics (e.g., player performance tracking).
+
+Improved handling for API rate limits and missing data scenarios.
+
+
+
+---
+
+
+
+
+
 ## Creating the Heroku app
 
 When you create the app, you will need to add two buildpacks from the _Settings_ tab. The ordering is as follows:
