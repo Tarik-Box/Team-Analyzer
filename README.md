@@ -98,7 +98,7 @@ Or try the deployed version on Heroku:
 ---
 
 
-🧪 Testing
+## 🧪 Testing
 
 Manual testing steps:
 
@@ -121,6 +121,44 @@ Use Jupyter Notebook to explore the loaded JSON → DataFrame transformation.
 
 
 
+## 🧱 Code Files Overview
+
+
+➤ banners.py
+
+Contains old ASCII-art banners reused to enhance user experience.
+
+Updated with color formatting and basic text animations.
+
+Not directly tied to business logic.
+
+Example of a file kept for legacy + aesthetic purposes.
+
+---
+
+➤ analyzer.py
+
+Core logic for retrieving, parsing, and displaying football data.
+
+Implements API calls, error handling, and JSON → DataFrame conversion.
+
+Ensures data is formatted and displayed in an organized manner for analysis.
+
+---
+
+➤ run.py
+
+The entry point of the program.
+
+Handles main execution flow and interaction between modules.
+
+Launches the CLI and calls the analyzer functions.
+
+Designed for smooth execution and easy debugging.
+
+
+
+---
 
 ## Creating the Heroku app
 
