@@ -104,15 +104,15 @@ class StatsAnalyzer:
         # Combine and sort
         all_teams = pd.concat([home_teams, away_teams]).drop_duplicates().sort_values().reset_index(drop=True)
 
-        print(Fore.GREEN + "\n[+] Teams found in La Liga:\n" + Style.RESET_ALL)
+        print(Fore.GREEN + "\n[+] Teams found in La Liga:" + Style.RESET_ALL)
         for team in all_teams:
             sys.stdout.write(f"\n\t{Fore.CYAN}{team}{Style.RESET_ALL}")
             sys.stdout.flush()
             time.sleep(0.02)
         print("\n" + "-"*50)
-        print(f"""{Fore.RED}\n\n!--> Note: If the selected match is not found!
-              Try to pick *Barcelona* as they have the most matches
-                on the StatsBomb API\n""")
+        print(f"{Fore.RED}[!]Note: If the selected match is not found!{Style.RESET_ALL}")
+        print(f"Try to pick {Fore.GREEN}*Barcelona*{Style.RESET_ALL} as they have the most matches")
+        print("on the StatsBomb API")
 
         print(Fore.CYAN + "\n[+] Home Team Name: " + Style.RESET_ALL)
         # get home team from team_select method

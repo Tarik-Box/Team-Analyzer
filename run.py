@@ -80,6 +80,8 @@ def get_season():
         return None
 
 # main execution block
+
+
 if __name__ == "__main__":
     try:
         welcome_message()
