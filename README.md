@@ -186,19 +186,33 @@ The code now follows a consistent style and is organized into logical, readable 
 
 ## 🚀 Future Improvements
 
-Currently, the project retrieves and analyzes match data mainly from the Spanish La Liga.
+- Currently, the project retrieves and analyzes match data mainly from the Spanish La Liga.
 
-Future versions could detect and list all available leagues from the API for user selection.
+- Future versions could detect and list all available leagues from the API for user selection.
 
-With a richer API, the tool could evolve into a more advanced analytics platform with visual dashboards.
+ -With a richer API, the tool could evolve into a more advanced analytics platform with visual dashboards.
 
-Expansion to include additional metrics (e.g., player performance tracking).
+- Add a **graphical user interface (GUI)** using **Ex: Tkinter** , allowing non-technical users to visualize statistics interactively.
 
-Improved handling for API rate limits and missing data scenarios.
+- Expansion to include additional metrics (e.g., player performance tracking).
+
+- Improved handling for API rate limits and missing data scenarios.
 
 
 
 ---
+
+
+## ⚠️ Limitations
+
+
+While BallAlysis successfully fetches and analyzes real football data from the StatsBomb Open Data API, there are a few inherent limitations:
+
+- The **StatsBomb Open Data API** does not provide live or frequently updated data — it mainly contains archived matches.
+- Some leagues lack complete player statistics or positional data, which may result in missing or incomplete rows in the analysis.
+- Due to these data limitations, the project currently focuses on **La Liga (Spain) seasons (2018/2019 and 2019/2020)**,  where data accuracy is relatively high.
+- Future versions could integrate more reliable APIs or a private data source to expand analysis capabilities.
+
 
 
 ## 🙌 Credits
