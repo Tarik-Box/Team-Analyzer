@@ -98,6 +98,30 @@ Or try the deployed version on Heroku:
 ---
 
 
+🧪 Testing
+
+Manual testing steps:
+
+Launch the script 'python3 run.py' , and select the season to analyze 
+
+Select a match / Teams from the list.
+
+Observe the displayed statistics for accuracy.
+
+Interrupt using Ctrl + C to verify proper exit handling.
+
+Use Jupyter Notebook to explore the loaded JSON → DataFrame transformation.
+
+![Works with Jupyter 1](assets/images/jupyter-work-1.png)
+
+![Works with Jupyter 2](assets/images/jupyter-work2.png)
+
+
+---
+
+
+
+
 ## Creating the Heroku app
 
 When you create the app, you will need to add two buildpacks from the _Settings_ tab. The ordering is as follows:
