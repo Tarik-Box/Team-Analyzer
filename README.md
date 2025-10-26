@@ -52,13 +52,51 @@ It’s designed to be both informative and easy to use, providing a starting poi
 
 ![Script look](assets/images/keyboardInterrupt.png)
 
+
+
 ---
 
-## Reminders
 
-- Your code must be placed in the `run.py` file
-- Your dependencies must be placed in the `requirements.txt` file
-- Do not edit any of the other files or your code may not deploy properly
+
+## ✨ Features
+- Fetches real football data from free external API "StatsBomb",
+- Link : https://github.com/statsbomb/open-data
+- Displays formatted and colorized statistics for teams and matches.
+- Provides random ASCII banners to improve user experience.
+- Error-handling and smooth CLI interactions.  
+- Fully deployed and functional on **Heroku**.
+
+![Heroku](assets/images/heroku.png)
+
+
+---
+
+
+
+## ⚙️ Installation
+Clone the repository and install dependencies:
+```bash
+git clone https://github.com/Tarik-Box/Team-Analyzer.git
+cd Team-Analyzer
+pip install -r requirements.txt
+
+```
+
+▶️ Usage :
+
+```bash
+python run.py
+
+```
+
+Or try the deployed version on Heroku:
+
+- Link : https://ballalysis-d2b90c805862.herokuapp.com/
+
+
+
+---
+
 
 ## Creating the Heroku app
 
