@@ -4,9 +4,21 @@
 # Author: Tarik Ataia
 # Date: 19.10.2025
 
+
+'''
+
+This is the main execution file for BallAlysis - Simple Football Data Analyzer.
+It imports necessary libraries and displays a welcome message
+using the custom banners module.
+This script fetches and analyzes football data and players stats
+from StatsBomb Open Data API.
+Github Repo :  https://github.com/statsbomb/open-data/tree/master
+
+'''
+
 # import necessary libraries
 
-from analyzer import StatsAnalyzer 
+from analyzer import StatsAnalyzer
 # Write analyzer module to make the code modular and organized and readable
 # import StatsAnalyzer class from custom analyzer module .
 # StatsAnalyzer class handles fetching and analyzing football
@@ -18,17 +30,6 @@ import colorama  # for colored terminal text
 from colorama import Fore, Style
 colorama.init(autoreset=True)  # initialize colorama
 
-
-'''
-
-This is the main execution file for BallAlysis - Simple Football Data Analyzer.
-It imports necessary libraries and displays a welcome message
-using the custom banners module.
-This script fetches and analyzes football data and players stats 
-from StatsBomb Open Data API.
-Github Repo :  https://github.com/statsbomb/open-data/tree/master
-
-'''
 
 # Base URL for fetching StatsBomb open data
 BASE_URL = "https://raw.githubusercontent.com/statsbomb/open-data/refs/heads/master/data/"
