@@ -29,6 +29,7 @@ While not essential to the core logic, it enhances the visual and interactive as
 > as they represent the functional backbone of the application.
 
 
+Deployed version : [Heroku](https://ballalysis-d2b90c805862.herokuapp.com/)
 
 
 ---
@@ -47,7 +48,7 @@ While not essential to the core logic, it enhances the visual and interactive as
 9. [Credits](#-credits)  
 10. [License](#-license)
 
-Deployed version : [Heroku](https://ballalysis-d2b90c805862.herokuapp.com/)
+
 
 ---
 
