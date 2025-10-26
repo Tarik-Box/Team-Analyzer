@@ -30,23 +30,24 @@ While not essential to the core logic, it enhances the visual and interactive as
 
 
 
+
 ---
 
 
 
 ## 🧭 Table of Contents
-1. [Overview](#overview)  
-2. [Features](#features)  
-3. [Installation](#installation)  
-4. [Usage](#usage)  
-5. [Testing](#testing)  
-6. [Code Files Overview](#code-files-overview)  
-7. [Code Quality](#code-quality)  
-8. [Future Improvements](#future-improvements)  
-9. [Credits](#credits)  
-10. [License](#license)
+1. [Overview](#-overview)  
+2. [Features](#-features)  
+3. [Installation](#-installation)  
+4. [Usage](#-usage)  
+5. [Testing](#-testing)  
+6. [Code Files Overview](#-code-files-overview)  
+7. [Code Quality](#-code-quality)  
+8. [Future Improvements](#-future-improvements)  
+9. [Credits](#-credits)  
+10. [License](#-license)
 
-
+Deployed version : [Heroku](https://ballalysis-d2b90c805862.herokuapp.com/)
 
 ---
 
@@ -60,7 +61,7 @@ It’s designed to be both informative and easy to use, providing a starting poi
 
 ![Greeting Banner](assets/images/greeting-banner.png)
 
-![Script look](assets/images/keyboardInterrupt.png)
+![Script look and Error handling](assets/images/keyboardInterrupt.png)
 
 
 
