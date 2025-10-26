@@ -188,26 +188,31 @@ Improved handling for API rate limits and missing data scenarios.
 ---
 
 
+## 🙌 Credits
+
+Special thanks to:
+
+### Resources -
+
+- Corey Schafer (YouTube) — for his excellent tutorials on pandas and clean coding practices.
+
+➤ [Playlist](https://www.youtube.com/watch?v=ZyhVh-qRZPA&list=PLSLQ7uyfNIItZf404-TviaeM01pnebr5K)
+
+- Statsbomb free open data - API 
+
+➤ [Statsbomb](https://github.com/statsbomb/open-data)
+
+### AI Assistants -
+
+➤ ChatGPT (OpenAI) — for assistance in structuring and refining the README file.
+
+➤ GitHub Copilot (VS Code) — for autocompletion and in-line code comments.
 
 
-
-## Creating the Heroku app
-
-When you create the app, you will need to add two buildpacks from the _Settings_ tab. The ordering is as follows:
-
-1. `heroku/python`
-2. `heroku/nodejs`
-
-You must then create a _Config Var_ called `PORT`. Set this to `8000`
-
-If you have credentials, such as in the Love Sandwiches project, you must create another _Config Var_ called `CREDS` and paste the JSON into the value field.
-
-Connect your GitHub repository and deploy as normal.
-
-## Constraints
-
-The deployment terminal is set to 80 columns by 24 rows. That means that each line of text needs to be 80 characters or less otherwise it will be wrapped onto a second line.
 
 ---
 
-Happy coding!
+
+## 📄 License
+
+Free, public, and open-source for educational and personal use.
