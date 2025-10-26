@@ -34,7 +34,17 @@ While not essential to the core logic, it enhances the visual and interactive as
 
 
 
-## Table of contents "Placeholder" 
+## 🧭 Table of Contents
+1. [Overview](#overview)  
+2. [Features](#features)  
+3. [Installation](#installation)  
+4. [Usage](#usage)  
+5. [Testing](#testing)  
+6. [Code Files Overview](#code-files-overview)  
+7. [Code Quality](#code-quality)  
+8. [Future Improvements](#future-improvements)  
+9. [Credits](#credits)  
+10. [License](#license)
 
 
 
@@ -59,6 +69,7 @@ It’s designed to be both informative and easy to use, providing a starting poi
 
 
 ## ✨ Features
+
 - Fetches real football data from free external API "StatsBomb",
 - Link : https://github.com/statsbomb/open-data
 - Displays formatted and colorized statistics for teams and matches.
@@ -74,6 +85,7 @@ It’s designed to be both informative and easy to use, providing a starting poi
 
 
 ## ⚙️ Installation
+
 Clone the repository and install dependencies:
 ```bash
 git clone https://github.com/Tarik-Box/Team-Analyzer.git
@@ -82,7 +94,7 @@ pip install -r requirements.txt
 
 ```
 
-▶️ Usage :
+## ▶️ Usage :
 
 ```bash
 python run.py

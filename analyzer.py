@@ -158,8 +158,9 @@ class StatsAnalyzer:
             # if no match is found,
             # inform the user with available teams and matches
             print(f"\n[-] {Style.BRIGHT}Match not found on statsbomb database.{Style.RESET_ALL} ")
-            print('see available teams and matches above')
-            return None
+            print('[!] see available teams and matches above')
+            time.sleep(2)
+            return self.fetch_teams()
         except KeyboardInterrupt:
             exit(Fore.RED + "\n[-] User interrupted the match data fetching. Exiting ..." + Style.RESET_ALL)
 
