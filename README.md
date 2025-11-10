@@ -39,14 +39,17 @@ Deployed version : [Heroku](https://ballalysis-d2b90c805862.herokuapp.com/)
 ## 🧭 Table of Contents
 1. [Overview](#-overview)  
 2. [Features](#-features)  
-3. [Installation](#-installation)  
-4. [Usage](#-usage)  
-5. [Testing](#-testing)  
-6. [Code Files Overview](#-code-files-overview)  
-7. [Code Quality](#-code-quality)  
-8. [Future Improvements](#-future-improvements)  
-9. [Credits](#-credits)  
-10. [License](#-license)
+3. [Technologies Used](#-technologies-used)
+4. [Installation](#-installation)  
+5. [Usage](#-usage)  
+6. [Deployment](#-deployment)
+7. [Testing](#-testing)  
+8. [Code Files Overview](#-code-files-overview)  
+9. [Code Quality](#-code-quality)  
+10. [Future Improvements](#-future-improvements)  
+11. [Credits](#-credits)  
+12. [License](#-license)
+13. [Contributing](#-contributing)
 
 
 
@@ -61,8 +64,6 @@ Deployed version : [Heroku](https://ballalysis-d2b90c805862.herokuapp.com/)
 It’s designed to be both informative and easy to use, providing a starting point for football data analytics.  
 
 ![Greeting Banner](assets/images/greeting-banner.png)
-
-![Script look and Error handling](assets/images/keyboardInterrupt.png)
 
 
 
@@ -80,6 +81,21 @@ It’s designed to be both informative and easy to use, providing a starting poi
 - Fully deployed and functional on **Heroku**.
 
 ![Heroku](assets/images/heroku.png)
+
+---
+
+## 🛠️ Technologies Used
+
+This project leverages several key technologies and libraries to achieve its functionality:
+
+- **Python 3**: The core programming language for the application.
+- **Pandas**: Utilized for efficient data processing, manipulation, and analysis of the football match data fetched from the API. Its DataFrame structure is crucial for handling tabular data.
+- **Requests**: A powerful and user-friendly HTTP library for making API calls to the StatsBomb Open Data API, enabling the retrieval of raw match data.
+- **Colorama**: Used to add color and style to the terminal output, significantly enhancing the user experience and readability of the CLI.
+- **Random**: Employed for generating random ASCII banners, contributing to the interactive and engaging nature of the user interface.
+- **JSON**: For parsing and handling the JSON responses received from the StatsBomb API.
+
+---
 
 
 ---
@@ -107,29 +123,151 @@ Or try the deployed version on Heroku:
 
 - Link : https://ballalysis-d2b90c805862.herokuapp.com/
 
+---
 
+## 🚀 Deployment
+
+This section outlines the steps required to deploy and run the **Team Analyzer** project, both locally and on Heroku.
+
+### Local Deployment
+
+To set up and run the project on your local machine:
+
+1.  **Clone the Repository:**
+    ```bash
+    git clone https://github.com/Tarik-Box/Team-Analyzer.git
+    ```
+2.  **Navigate to the Project Directory:**
+    ```bash
+    cd Team-Analyzer
+    ```
+3.  **Install Dependencies:**
+    Ensure you have Python 3 and `pip` installed. Then, install the required libraries:
+    ```bash
+    pip install -r requirements.txt
+    ```
+4.  **Run the Application:**
+    ```bash
+    python run.py
+    ```
+   ![local deployment](assets/images/local.png)
+
+### Heroku Deployment
+
+The project is designed for easy deployment on Heroku.
+
+1.  **Create a Heroku Account:**
+    If you don't have one, sign up at [Heroku](https://www.heroku.com/).
+
+2.  **Install Heroku CLI:**
+    Follow the instructions on the [Heroku Dev Center](https://devcenter.heroku.com/articles/heroku-cli) to install the Heroku Command Line Interface.
+
+3.  **Login to Heroku CLI:**
+    ```bash
+    heroku login
+    ```
+
+4.  **Create a Heroku App:**
+    Navigate to your project directory and create a new Heroku app:
+    ```bash
+    heroku create your-app-name # Replace 'your-app-name' with a unique name
+    ```
+    This will also set up a new Git remote for your Heroku app.
+
+5.  **Configure Buildpacks:**
+    Ensure your Heroku app has the Python / Nodejs buildpack configured. Heroku usually detects this automatically from `runtime.txt` (if present) or `requirements.txt`.
+    ```bash
+    heroku buildpacks:set heroku/python
+    ```
+
+6.  **Push to Heroku:**
+    Deploy your application by pushing your code to the Heroku remote:
+    ```bash
+    git push heroku main
+    ```
+    ![heroku push](assets/images/deploy-heroku-push.png)
+
+7.  **Open the App:**
+    Once deployed, open your application in the browser:
+    ```bash
+    heroku open
+    ```
+    ![Heroku Deployed](assets/images/heroku.png)
 
 ---
 
 
 ## 🧪 Testing
 
-Manual testing steps:
+The application has undergone thorough testing to ensure its functionality, reliability, and adherence to coding standards.
 
-Launch the script 'python3 run.py' , and select the season to analyze 
+### Manual Testing
 
-Select a match / Teams from the list.
+Manual testing was conducted by systematically interacting with the application through the command-line interface. Each feature was tested to verify correct behavior and output.
 
-Observe the displayed statistics for accuracy.
+**Test Cases:**
 
-Interrupt using Ctrl + C to verify proper exit handling.
+1.  **Application Launch and Menu Navigation:**
+    *   **Action:** Run `python run.py`.
+    *   **Expected:** Application launches, displays greeting banner, and presents the main menu.
+    *   **Actual:**
+    *    ![test-launch](assets/images/launch.png)
 
-Use Jupyter Notebook to explore the loaded JSON → DataFrame transformation.
+2.  **Season Selection:**
+    *   **Action:** Select a valid season (e.g., "2018/2019") from the prompt.
+    *   **Expected:** Application proceeds to display available teams for the selected season.
+    *   **Actual:**
+    *   ![test-season-select](assets/images/season-select.png) 
+
+3.  **Match/Team Selection and Data Display:**
+    *   **Action:** Select a specific match or team from the displayed Teams list.
+    *   **Expected:** Formatted and colorized statistics for the selected match/team are displayed accurately.
+    *   **Actual:**
+    *   ![test-data-display](assets/images/data-display.png)
+
+4.  **Error Handling - Invalid Input:**
+    *   **Action:** At any prompt requiring numeric input, enter non-numeric characters or out-of-range numbers.
+    *   **Expected:** An appropriate error message is displayed, and the user is prompted to re-enter valid input.
+    *   **Actual:**
+    *   ![Invalid input](assets/images/invalid.png)
+
+5.  **Exit Handling (Ctrl+C):**
+    *   **Action:** Press `Ctrl + C` at various points during execution.
+    *   **Expected:** Application catches the `KeyboardInterrupt`, displays a graceful exit message, and terminates.
+    *   **Actual:**
+    *   ![KeyboardInterrupt](assets/images/keyboardInterrupt.png)
+
+### Automated Testing
+
+Currently, there are no dedicated automated unit or integration tests implemented for this project. The primary focus during development was on manual verification of functionality and output.
+
+*Future Improvement:* Implement unit tests for core functions in `analyzer.py` and `run.py` to ensure data processing logic and API interactions are robust.
+
+### Code Validation
+
+The codebase was rigorously checked against **PEP 8** guidelines using **Flake8**.
+
+*   **Tool Used:** Flake8
+*   **Command:** `flake8 .`
+*   **Results:**
+    *   Initial scans revealed several PEP 8 violations, primarily related to line length, whitespace, and naming conventions.
+    *   All resolvable issues were addressed and fixed to ensure code consistency and readability.
+    *   Remaining warnings are primarily for line length in specific banner strings within `banners.py`, which are intentionally long for aesthetic purposes and do not impact functionality or readability of core logic.
+    *   ![Code institute Linter](/assets/images/ci-linter1.png)
+    *   ![Code institute Linter](/assets/images/ci-linter2.png)
+    *   ![Code institute Linter](/assets/images/ci-linter3.png)
+
+    **Flake8**
+    *   ![Flake8-results](/assets/images/flake8-1.png)
+    *   ![Flake8-results](/assets/images/flake8-2.png)
+    *   ![Flake8-results](/assets/images/flake8-3.png)
+
+### Jupyter Notebook Exploration
+
+The data transformation from JSON to Pandas DataFrame was also verified using Jupyter Notebooks to ensure data integrity and correct parsing.
 
 ![Works with Jupyter 1](assets/images/jupyter-work-1.png)
-
 ![Works with Jupyter 2](assets/images/jupyter-work2.png)
-
 
 ---
 
@@ -198,6 +336,7 @@ The code now follows a consistent style and is organized into logical, readable 
 - Expansion to include additional metrics (e.g., player performance tracking).
 
 - Improved handling for API rate limits and missing data scenarios.
+- Consider refactoring core logic using Object-Oriented Programming (OOP) principles for better modularity and scalability.
 
 
 
@@ -233,9 +372,9 @@ Special thanks to:
 
 ### AI Assistants -
 
-➤ ChatGPT (OpenAI) — for assistance in structuring and refining the README file.
-
 ➤ GitHub Copilot (VS Code) — for autocompletion and in-line code comments.
+
+➤ Gemini-cli (Google) — for assistance in restructuring and enhancing the README.md file.
 
 
 
@@ -245,3 +384,16 @@ Special thanks to:
 ## 📄 License
 
 Free, public, and open-source for educational and personal use.
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! If you'd like to contribute to the project, please consider the following guidelines:
+
+-   **Fork the repository** and create your branch from `main`.
+-   **Follow PEP 8** for code style.
+-   **Use conventional commit messages** (e.g., `feat: Add new feature`, `fix: Resolve bug in X`). This helps in generating clear release notes and understanding the project history.
+-   **Open a pull request** with a clear description of your changes.
+
+---
